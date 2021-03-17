@@ -1,33 +1,30 @@
 <?php
+
     namespace supermarket\Supermarket;
+
     use supermarket\Product\Product;
 
-    class Supermarket {
+    class Supermarket
+    {
         private int $fashionableWheels;
         private int $storageTemp;
         private array $products = array();
 
-        public function __construct(int $fashionableWheels, int $storageTemp) {
+        public function __construct(int $fashionableWheels, int $storageTemp)
+        {
             $this->storageTemp = $storageTemp;
             $this->fashionableWheels = $fashionableWheels;
         }
 
 
-        public function getReport() {
+        public function getReport()
+        {
             $products = $this->getProducts();
             foreach ($products as $product) {
-                echo $product->isSellable() ? $product->getBrandName(). ' is sellable'.'<br/>' : $product->getBrandName(). ' is not sellable'.'<br/>';
+                echo $product->isSellable() ? $product->getBrandName().' is sellable'.'<br/>' : $product->getBrandName(
+                    ).' is not sellable'.'<br/>';
             }
         }
-
-
-        public function checkIfProductsAreSellable() {
-            $products = $this->getProducts();
-            foreach ($products as $product) {
-                $product->checkIfSellable();
-            }
-        }
-
 
         /**
          * @return array
@@ -35,6 +32,32 @@
         public function getProducts(): array
         {
             return $this->products;
+        }
+
+        public function removeNonSallableProducts()
+        {
+            $products = $this->getProducts();
+            foreach ($products as $product) {
+                if ($product->getCategory() !== 'Truck' & $product->isSellable() === false) {
+                    $this->deleteProduct($product);
+                }
+            }
+        }
+
+        public function deleteProduct($product): void
+        {
+            $key = array_search($product, $this->products);
+            if ($key !== false) {
+                unset($this->products[$key]);
+            }
+        }
+
+        public function checkIfProductsAreSellable()
+        {
+            $products = $this->getProducts();
+            foreach ($products as $product) {
+                $product->checkIfSellable();
+            }
         }
 
         /**
@@ -77,10 +100,15 @@
             $this->storageTemp = $storageTemp;
         }
 
+        public function displayProducts()
+        {
+            $products = $this->getProducts();
 
-
-
-
+            echo '<br/>'.'After clean up the available products are : '.'<br/>';
+            foreach ($products as $product) {
+                echo $product->getBrandName().'<br/>';
+            }
+        }
 
 
     }

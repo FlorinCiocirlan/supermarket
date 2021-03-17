@@ -37,6 +37,9 @@
     $supermarket->checkIfProductsAreSellable();
 
     $supermarket->getReport();
+    $supermarket->removeNonSallableProducts();
+    $supermarket->displayProducts();
+
 
 
 
